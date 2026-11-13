@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">春天熊の观测站</title>
+  <desc id="desc">午夜蓝星空中的冰蓝小熊，环绕观测轨道与一颗琥珀色星点。</desc>
+  <rect width="64" height="64" rx="16" fill="#101D32"/>
+  <rect x=".75" y=".75" width="62.5" height="62.5" rx="15.25" stroke="#354F73" stroke-width="1.5"/>
+  <!-- The orbit sits behind the bear so its face stays readable at favicon size. -->
+  <ellipse cx="32" cy="34" rx="29" ry="12" transform="rotate(-28 32 34)" stroke="#B59AFA" stroke-width="2.5"/>
+  <circle cx="19" cy="19" r="8" fill="#83DDEB"/>
+  <circle cx="45" cy="19" r="8" fill="#83DDEB"/>
+  <circle cx="19" cy="19" r="4" fill="#285371"/>
+  <circle cx="45" cy="19" r="4" fill="#285371"/>
+  <path d="M32 17C20 17 12 26 12 36C12 48 20 55 32 55C44 55 52 48 52 36C52 26 44 17 32 17Z" fill="#83DDEB"/>
+  <circle cx="25" cy="33" r="2.5" fill="#101D32"/>
+  <circle cx="39" cy="33" r="2.5" fill="#101D32"/>
+  <ellipse cx="32" cy="43" rx="9" ry="7" fill="#B7EEF3"/>
+  <path d="M28.5 40C28.5 38.7 35.5 38.7 35.5 40C35.5 42 33 43.5 32 43.5C31 43.5 28.5 42 28.5 40Z" fill="#101D32"/>
+  <path d="M32 43.5V46" stroke="#101D32" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="55" cy="20" r="4" fill="#F1BF75" stroke="#101D32" stroke-width="2"/>
+</svg>
