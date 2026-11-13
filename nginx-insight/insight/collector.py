@@ -10,6 +10,7 @@ from contextlib import ExitStack
 from datetime import datetime
 from pathlib import Path
 
+from dotenv import dotenv_values, find_dotenv
 from sqlalchemy import select
 
 from .db import Cursor, Event, Location
@@ -22,35 +23,69 @@ NAME = re.compile(r"^(?:(?P<site>.+)\.)?(?P<kind>access|error)\.log(?:[.-].*)?$"
 class Collector:
     def __init__(self, sessions):
         self.sessions = sessions
-        self.ip_whitelist = []
-        for value in re.split(r"[,\s]+", os.getenv("NGINX_IP_WHITELIST", "").strip()):
-            if value:
-                try:
-                    self.ip_whitelist.append(ipaddress.ip_network(value, strict=False))
-                except ValueError:
-                    raise ValueError(
-                        f"NGINX_IP_WHITELIST 包含无效 IP/CIDR: {value}"
-                    ) from None
-        log.info("collector.whitelist_configured entries=%s", len(self.ip_whitelist))
+        self.whitelist_file = find_dotenv()
+        configured = os.getenv("NGINX_IP_WHITELIST", "")
+        file_value = (
+            dotenv_values(self.whitelist_file).get("NGINX_IP_WHITELIST")
+            if self.whitelist_file
+            else None
+        )
+        # Explicit environment overrides remain authoritative when different.
+        self.follow_whitelist_file = file_value is not None and file_value == configured
+        self.whitelist_value = None
+        self.reload_whitelist()
         self.handles = {}
         self.idle = {}
         self.resources = {}
 
+    def reload_whitelist(self):
+        configured = os.getenv("NGINX_IP_WHITELIST", "")
+        if self.follow_whitelist_file:
+            configured = (
+                dotenv_values(self.whitelist_file).get("NGINX_IP_WHITELIST") or ""
+            )
+        if configured == self.whitelist_value:
+            return
+        networks = []
+        for value in re.split(r"[,\s]+", configured.strip()):
+            if value:
+                try:
+                    networks.append(ipaddress.ip_network(value, strict=False))
+                except ValueError:
+                    raise ValueError(
+                        f"NGINX_IP_WHITELIST 包含无效 IP/CIDR: {value}"
+                    ) from None
+        self.ip_whitelist = networks
+        self.whitelist_value = configured
+        log.info("collector.whitelist_configured entries=%s", len(self.ip_whitelist))
+
     def is_exempt(self, ip):
         if not self.ip_whitelist or not ip:
             return False
+        # Nginx error contexts can include a client port; normalize only endpoints.
+        if ip.startswith("[") and "]" in ip:
+            ip = ip[1 : ip.index("]")]
+        elif ip.count(":") == 1 and "." in ip:
+            host, port = ip.rsplit(":", 1)
+            if port.isdigit():
+                ip = host
         try:
             address = ipaddress.ip_address(ip)
         except ValueError:
             return False
-        return any(address in network for network in self.ip_whitelist)
+        addresses = [address]
+        if isinstance(address, ipaddress.IPv6Address) and address.ipv4_mapped:
+            addresses.append(address.ipv4_mapped)
+        return any(
+            address in network for address in addresses for network in self.ip_whitelist
+        )
 
     def source_ip(self, raw, kind):
         # Identify the client even when another field makes the line unparseable.
         if kind == "access":
             parts = raw.split(maxsplit=1)
             return parts[0] if parts else None
-        match = re.search(r"(?:^|[, ])client: ([^, ]+)", raw)
+        match = re.search(r"(?:^|[,\s])client:\s*([^,\s]+)", raw)
         return match[1] if match else None
 
     def close(self):
@@ -61,6 +96,7 @@ class Collector:
         self.idle.clear()
 
     def scan(self, directory, archives=False):
+        self.reload_whitelist()
         for path in sorted(Path(directory).iterdir()):
             match = NAME.match(path.name)
             if not match or not path.is_file():

@@ -84,6 +84,50 @@ class IntegrationTests(unittest.TestCase):
                 session.scalar(select(func.count()).select_from(Location)), 0
             )
 
+    def test_whitelist_client_endpoints_and_mapped_ipv4(self):
+        self.configure_whitelist("1.2.3.4,2001:db8::/32")
+        self.path.write_bytes(LINE.replace(b"1.2.3.4", b"::ffff:1.2.3.4"))
+        (self.root / "error.log").write_text(
+            "2026/11/11 14:35:01 [error] 123#123: *1 failed, client: 1.2.3.4:4321, server: test\n"
+            "2026/11/11 14:35:01 [error] 123#123: *2 failed, client: [2001:db8::1]:4321, server: test\n"
+            "bad error line, client:    1.2.3.4, server: test\n"
+        )
+        self.assertEqual(self.collector.scan(self.root), 4)
+        self.assertEqual(self.count(), 0)
+        with self.sessions() as session:
+            self.assertEqual(
+                session.scalar(select(func.count()).select_from(Location)), 0
+            )
+        self.collector.close()
+        self.assertEqual(self.collector.scan(self.root), 0)
+
+    def test_whitelist_file_changes_apply_without_collector_restart(self):
+        env_file = self.root / ".env"
+        env_file.write_text("NGINX_IP_WHITELIST=\n")
+        self.collector.close()
+        with patch("insight.collector.find_dotenv", return_value=str(env_file)):
+            self.collector = Collector(self.sessions)
+        env_file.write_text("NGINX_IP_WHITELIST=1.2.3.4\n")
+        self.path.write_bytes(LINE)
+        self.assertEqual(self.collector.scan(self.root), 1)
+        self.assertEqual(self.count(), 0)
+        env_file.write_text("NGINX_IP_WHITELIST=\n")
+        with self.path.open("ab") as handle:
+            handle.write(LINE)
+        self.assertEqual(self.collector.scan(self.root), 1)
+        self.assertEqual(self.count(), 1)
+
+    def test_whitelist_environment_override_is_preserved(self):
+        env_file = self.root / ".env"
+        env_file.write_text("NGINX_IP_WHITELIST=1.2.3.5\n")
+        self.collector.close()
+        with patch("insight.collector.find_dotenv", return_value=str(env_file)):
+            os.environ["NGINX_IP_WHITELIST"] = "1.2.3.4"
+            self.collector = Collector(self.sessions)
+        self.path.write_bytes(LINE)
+        self.assertEqual(self.collector.scan(self.root), 1)
+        self.assertEqual(self.count(), 0)
+
     def test_all_exempt_batch_does_not_end_import_early(self):
         self.configure_whitelist("1.2.3.4")
         with gzip.open(self.root / "access.log.1.gz", "wb") as handle:
