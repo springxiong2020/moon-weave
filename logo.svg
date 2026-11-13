@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">moon-weave — 织月</title>
+  <desc id="desc">A luminous crescent moon woven from fine silk-like threads, with a small star at its center.</desc>
+  <defs>
+    <linearGradient id="moon" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F5E9C9"/>
+      <stop offset="0.52" stop-color="#D8C49B"/>
+      <stop offset="1" stop-color="#A8B8C8"/>
+    </linearGradient>
+    <linearGradient id="thread" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#B7C9D4"/>
+      <stop offset="1" stop-color="#E8D6B1"/>
+    </linearGradient>
+    <clipPath id="crescent">
+      <path fill-rule="evenodd" d="M327 69 A190 190 0 1 0 444 368 A167 167 0 0 1 327 69 Z"/>
+    </clipPath>
+  </defs>
+  <!-- Transparent background, suitable for light and dark surfaces. -->
+  <path d="M327 69 A190 190 0 1 0 444 368 A167 167 0 0 1 327 69 Z" fill="url(#moon)"/>
+  <g clip-path="url(#crescent)" fill="none" stroke="#556C80" stroke-opacity=".45" stroke-width="5">
+    <path d="M84 126 Q252 220 473 398"/>
+    <path d="M72 169 Q243 261 460 439"/>
+    <path d="M65 216 Q239 303 448 477"/>
+    <path d="M76 268 Q228 346 414 495"/>
+    <path d="M106 322 Q229 388 358 501"/>
+    <path d="M150 369 Q235 423 292 502"/>
+    <path d="M170 51 Q227 248 406 442"/>
+    <path d="M221 40 Q251 240 450 391"/>
+    <path d="M273 45 Q281 223 470 335"/>
+    <path d="M323 56 Q314 211 477 280"/>
+  </g>
+  <!-- A single free thread leaves the moon and becomes a star. -->
+  <path d="M187 371 C231 348 276 309 308 266 S365 199 400 177" fill="none" stroke="url(#thread)" stroke-width="5" stroke-linecap="round"/>
+  <path d="M401 145 L410 169 L434 178 L410 187 L401 211 L392 187 L368 178 L392 169 Z" fill="#E8D6B1"/>
+  <circle cx="350" cy="231" r="4" fill="#E8D6B1"/>
+  <circle cx="364" cy="216" r="2.5" fill="#E8D6B1" opacity=".75"/>
+</svg>
