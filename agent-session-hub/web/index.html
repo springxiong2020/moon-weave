@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>ASH · 本地智能体会话台</title>
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <meta name="description" content="ASH · Agent Session Hub，本地智能体会话台" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <a class="brand" href="/" aria-label="ASH 首页" title="Agent Session Hub"
+          ><img class="logo" src="/logo.svg" alt="" width="39" height="39" /
+          ><span>ASH<small>本地智能体会话台</small></span></a
+        >
+        <div class="workspace">
+          <span class="workspace-icon"><span class="icon icon--workspace" aria-hidden="true"></span></span>
+          <div>个人工作空间<small>本机文件 · 本地索引</small></div>
+          <span class="local-dot"></span>
+        </div>
+        <nav id="navigation">
+          <button class="nav active" data-view="all">
+            <span class="icon icon--sessions" aria-hidden="true"></span>全部会话<b id="all-count">0</b></button
+          ><button class="nav" data-view="favorite">
+            <span class="icon icon--star" aria-hidden="true"></span>我的收藏</button
+          ><button class="nav" data-view="archived">
+            <span class="icon icon--archive" aria-hidden="true"></span>已归档
+          </button>
+        </nav>
+        <div class="side-label">项目 <span id="project-count">0</span></div>
+        <div id="projects" class="projects"></div>
+        <div class="side-bottom">
+          <div class="connection">
+            <span class="local-dot"></span> 数据留在你的设备上
+          </div>
+          <button id="sources" class="nav"><span class="icon icon--settings" aria-hidden="true"></span>数据源与设置</button>
+          <div class="profile">
+            <span class="avatar"><span class="icon icon--user" aria-hidden="true"></span></span>
+            <div>本地开发者<small>Local workspace</small></div>
+          </div>
+        </div>
+      </aside>
+      <main>
+        <header class="topbar">
+          <div>
+            工作空间 <span>/</span> <strong id="breadcrumb">全部会话</strong>
+          </div>
+          <span class="local-label"
+            ><span class="local-dot"></span>本地模式</span
+          >
+        </header>
+        <section class="page-heading">
+          <div>
+            <h1 id="heading">每一次思考，都有迹可循<span>。</span></h1>
+            <p>把散落在终端里的对话，整理成你的开发记忆。</p>
+          </div>
+          <button id="refresh" class="primary"><span class="icon icon--refresh" aria-hidden="true"></span> <span class="button-label">扫描会话</span></button>
+        </section>
+        <section class="overview">
+          <div>
+            <span class="metric-icon blue"><span class="icon icon--sessions" aria-hidden="true"></span></span>
+            <div>
+              <small>会话总数</small><strong id="metric-total">—</strong>
+            </div>
+          </div>
+          <div>
+            <span class="metric-icon purple"><span class="icon icon--projects" aria-hidden="true"></span></span>
+            <div>
+              <small>关联项目</small><strong id="metric-projects">—</strong>
+            </div>
+          </div>
+          <div>
+            <span class="metric-icon green"><span class="icon icon--clock" aria-hidden="true"></span></span>
+            <div>
+              <small>近 7 天更新</small><strong id="metric-recent">—</strong>
+            </div>
+          </div>
+          <div class="last-index">
+            <span class="local-dot"></span>
+            <div>
+              <strong>本地索引</strong><small id="scan-time">等待扫描</small>
+            </div>
+          </div>
+        </section>
+        <div class="workbench">
+          <section class="session-pane">
+            <div class="list-heading">
+              <h2 id="list-title">
+                全部会话 <span id="visible-count">0</span>
+              </h2>
+              <select id="sort" aria-label="会话排序">
+                <option value="recent">最近更新</option>
+                <option value="old">最早更新</option>
+              </select>
+            </div>
+            <div class="search">
+              <span class="icon icon--search" aria-hidden="true"></span
+              ><input
+                id="search"
+                placeholder="搜索对话内容、项目…"
+                aria-label="搜索会话"
+              /><kbd>/</kbd>
+            </div>
+            <div class="filters">
+              <button data-provider="all" class="filter active">全部</button
+              ><button data-provider="codex" class="filter"><span class="icon icon--codex" aria-hidden="true"></span> Codex</button
+              ><button data-provider="claude" class="filter">
+                <span class="icon icon--claude" aria-hidden="true"></span> Claude Code</button
+              ><span id="result-hint"></span>
+            </div>
+            <div id="sessions" class="sessions" aria-live="polite"></div>
+            <footer class="list-footer">
+              连接本地会话文件 <span>收藏与归档独立保存</span>
+            </footer>
+          </section>
+          <section id="detail" class="detail">
+            <div class="empty">
+              <span class="icon icon--sessions" aria-hidden="true"></span>
+              <h2>继续你的开发记忆</h2>
+              <p>选择一条会话，查看完整对话与工具调用。</p>
+            </div>
+          </section>
+        </div>
+        <footer class="page-footer">
+          <a href="https://springxiong.cn" target="_blank" rel="noopener noreferrer">&copy; <span id="current-year"></span> SpringXiong</a>
+          <a href="https://github.com/springxiong2020/moon-weave" target="_blank" rel="noopener noreferrer">Agent Session Hub v1.0.0</a>
+        </footer>
+      </main>
+    </div>
+    <dialog id="settings">
+      <div class="modal-heading">
+        <h2>数据源与设置</h2>
+        <button id="close-settings" aria-label="关闭"><span class="icon icon--close" aria-hidden="true"></span></button>
+      </div>
+      <p>扫描本地 JSONL，支持查看和删除会话。修改目录可使用启动参数。</p>
+      <div id="source-list"></div>
+      <div class="notice">
+        收藏、归档与会话索引保存在服务的 .data
+        目录。归档只调整显示状态；永久删除会移除对应 JSONL 文件，无法撤销。
+      </div>
+      <p id="warnings"></p>
+    </dialog>
+    <dialog id="delete-dialog" aria-labelledby="delete-heading" aria-describedby="delete-description">
+      <div class="modal-heading"><h2 id="delete-heading">永久删除会话？</h2></div>
+      <p id="delete-description">将直接删除以下 JSONL 文件，并清理 ASH 中的收藏、归档和索引。此操作无法撤销，不会放入回收站。</p>
+      <div class="delete-target"><strong id="delete-title"></strong><code id="delete-path"></code></div>
+      <p>请先结束该会话的 CLI 进程；如果仍在运行，文件可能重新生成。需要保留内容时，请先导出。</p>
+      <p id="delete-error" role="alert" hidden></p>
+      <div class="dialog-actions"><button id="cancel-delete" class="secondary" autofocus>取消</button><button id="confirm-delete" class="danger-button">永久删除文件</button></div>
+    </dialog>
+    <div id="toast" role="status" hidden></div>
+    <script src="/app.js"></script>
+  </body>
+</html>

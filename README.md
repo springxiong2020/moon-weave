@@ -29,7 +29,8 @@
 
 | 项目 | 一句话介绍 | 技术栈 |
 | --- | --- | --- |
-| [`nginx-insight`](./nginx-insight/) | 从访问日志，看见站点的每一次连接。 | Python+Flask+ECharts |
+| [`nginx-insight`](./nginx-insight/README.md) | 从访问日志，看见站点的每一次连接。 | Python+Flask+ECharts |
+| [`agent-session-hub`](./agent-session-hub/README.md) | 把散落在终端里的对话，整理成你的开发记忆。 | Python 标准库 + SQLite + 原生 JavaScript |
 
 ## 🌱 创作约定
 

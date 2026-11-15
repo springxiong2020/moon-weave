@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">ASH</title>
+  <desc id="desc">Agent Session Hub：字母 A 连接三个会话节点</desc>
+  <rect width="64" height="64" rx="17" fill="#4569de"/>
+  <path d="M15 48 32 15 49 48M23 35h18" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="32" cy="15" r="4" fill="#c2d3ff"/>
+  <circle cx="15" cy="48" r="4" fill="#c2d3ff"/>
+  <circle cx="49" cy="48" r="4" fill="#c2d3ff"/>
+</svg>

@@ -1,0 +1,57 @@
+{
+  "retrieved": "2026-11-15",
+  "sources": {
+    "lucide": "https://raw.githubusercontent.com/iconify/icon-sets/master/json/lucide.json",
+    "remix": "https://raw.githubusercontent.com/iconify/icon-sets/master/json/ri.json"
+  },
+  "icons": {
+    "workspace": "layout-dashboard",
+    "sessions": "messages-square",
+    "star": "star",
+    "archive": "archive",
+    "unarchive": "archive-arrow-up",
+    "settings": "settings",
+    "refresh": "refresh-cw",
+    "projects": "folders",
+    "folder": "folder",
+    "clock": "clock",
+    "search": "search",
+    "model": "cpu",
+    "terminal": "terminal",
+    "download": "download",
+    "trash": "trash",
+    "close": "x",
+    "user": "user",
+    "system": "monitor",
+    "codex": "openai-fill",
+    "claude": "claude-fill",
+    "star-filled": "star (fill changed to currentColor)"
+  },
+  "licenses": {
+    "lucide": "ISC + MIT (Feather-derived icons); see LICENSE-Lucide.txt",
+    "remix": "Remix Icon 4.8.0, Apache-2.0; see LICENSE-Remix.txt"
+  },
+  "sha256": {
+    "archive.svg": "8ddd44e6645f364af95f8d7bf2f2acd076b18b8b942d24a73ef6c88dee3a3ef9",
+    "claude.svg": "c075d317c046a2f7d3ba12f99cdc7c7e70dbba2c2c4ee126d00400a06468f743",
+    "clock.svg": "2dfd90b3f2ea209cee36671f4ed32115bc05f73eedd0010195ab64f7295cf5b6",
+    "close.svg": "a9d9a20202cf2dd52df41ef5eda3bb470e6cc19380d5c1095c7e7ebd21309ee6",
+    "codex.svg": "5f302c70a4adec243a92f321b905b6d3dc76eec57eb25988d33af23ea6a82092",
+    "download.svg": "ddcab36094705f48647fbf07f668980784fa101d15e3db29c4daf3ff5081e3cb",
+    "folder.svg": "8ea12d44f76052d58cb14b7abf4b1069a6b219f9d01a29fe414c48c1872bdfda",
+    "model.svg": "5d13210cb403b4027d02fcf864f94303f2acda8c4c3e86375416303eb876ee07",
+    "projects.svg": "1ad3c754a20c4d59428ffefff68c20d96423241456bc8d5794b868175b587ab6",
+    "refresh.svg": "92fce2e9acb17bf97110c7684b1e31f33abdea9fed3be6aada85952763d79ca0",
+    "search.svg": "e2caf688a75039ac8b3b408e70a2ab5d4aee6e302aea4d53af74ce6071ef1f33",
+    "sessions.svg": "6db0a71fb88ff8eeb7467a8ed36c91552db1783113f81ec76fc31bbc2c126ff6",
+    "settings.svg": "a11cb070a8ebeaeb18f325324717e9865c614bd7dde470026e5cdc209f3857ac",
+    "star-filled.svg": "dd171594ddd7210a01090598f4ee45ad072f55a3501b40da4d4b2c4f1adad44f",
+    "star.svg": "ee7926362dba002992a282e27884cdd9c9f63aadb00e61d6efde33bfcbd28484",
+    "system.svg": "53c28bbff6dd11078d37f69d617208045065af8cdde74b83567a3a950e353f5a",
+    "terminal.svg": "b40654933e1acf88625ed28da27693fdabfbb768c31e528b4618b6c7fccfebd1",
+    "trash.svg": "994a9d73ec4fb4e45babee0eff831c60ea48e22c5936eb59b873097cb87fd124",
+    "unarchive.svg": "945f0b642c73bdfb4bf9d85ef49d022db7a382928312eba287861acd2bd1140a",
+    "user.svg": "0228456c0be8e4b2a947e890aa7af784f7fef5866f64affd8fbd5624d2851db3",
+    "workspace.svg": "73d3f84d26f384a7f42f83dcba581d65b33c3ebe07bdb8211e36bd22d087906e"
+  }
+}
